@@ -6,6 +6,8 @@ git clone %url%
 #### poetry install
 #### install flask version==1.1.2
 #### create virtual env
+cd pp4\myproject\tests
+
 #### run program with command python __init__.py
 
 
