@@ -2,10 +2,10 @@
 
 #### 2)install virtual environment poetry version==1.1.4
 
-### 3)install flask version==1.1.2
--
-### 4)create virtual env
--
-### 5)check versions of python
--
-### 6)run program with command python __init__.py
+#### 3)install flask version==1.1.2
+
+#### 4)create virtual env
+
+#### 5)check versions of python
+
+#### 6)run program with command python __init__.py
