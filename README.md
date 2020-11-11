@@ -1,11 +1,11 @@
-#### 1)install python version==3.7.4
+git clone %url%
+#### install python version==3.7.4
+#### next command use in powershell
+(Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python -
+####restart cmd
+#### poetry install
+#### install flask version==1.1.2
+#### create virtual env
+#### run program with command python __init__.py
 
-#### 2)install virtual environment poetry version==1.1.4
 
-#### 3)install flask version==1.1.2
-
-#### 4)create virtual env
-
-#### 5)check versions of python
-
-#### 6)run program with command python __init__.py
