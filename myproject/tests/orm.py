@@ -17,6 +17,17 @@ class User(Base):
    password = Column(String)
    phone = Column(String)
    userRole=Column(Integer)
+
+   def __init__(self,username,firstName,lastName,email,password,phone,userRole):
+      self.username = username
+      self.firstName = firstName
+      self.lastName = lastName
+      self.email = email
+      self.password = password
+      self.phone = phone
+      self.userRole = userRole
+   def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 ##   karma = Column(Integer)
 class Note(Base):
    __tablename__ = 'Note'
@@ -30,14 +41,24 @@ class Note(Base):
       self.tag = tag
       self.text = text
       self.photoUrl = url
+   def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 class Edit(Base):
    __tablename__ = 'Edit'
 
    id = Column(Integer,primary_key=True)
    text  = Column(String)
-   noteId  = Column(Integer,ForeignKey("Note.id"))
-   userId  = Column(Integer,ForeignKey("User.id"))
+   noteId  = Column(Integer)
+   userId  = Column(Integer)
    timeOfEdit = Column(DATETIME)
+
+   def __init__(self,text,noteId,userId,timeOfEdit):
+      self.text = text
+      self.noteId = noteId
+      self.userId = userId
+      self.timeOfEdit = timeOfEdit
+   def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 class NoteStatistic(Base):
    __tablename__ = 'NoteStatistic'
