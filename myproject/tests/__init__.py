@@ -9,10 +9,22 @@ from datetime import datetime
 import json
 from collections import namedtuple
 from json import JSONEncoder
+from marshmallow import Schema, fields, INCLUDE, ValidationError
+
+from flask_marshmallow import Marshmallow
+
 
 app = Flask(__name__)
+ma = Marshmallow(app)
 auth = HTTPBasicAuth()
+
 session = Session(engine)
+
+class NoteSchema(ma.Schema):
+    class Meta:
+        fields = ("tag","text","numbofEditors")
+    numbofEditors = fields.Integer(required=True) 
+note_schema = NoteSchema()
 
 @app.route('/',methods=['POST'])
 @auth.login_required
@@ -20,20 +32,23 @@ def index():
     return "ASSA"
 
 @app.route('/note',methods=['POST'])
-@auth.login_required
+##@auth.login_required
 def add_note():
-    d = request.get_json()
-    if d["numbofEditors"]>0 and d["numbofEditors"]<=5:
-        session.add(Note(d["tag"],d["text"],d["numbofEditors"]))
-        session.commit()
-        return 'created note',201
-    else:
-        return 'number of editors can"t be less then 1 and more then 5',405
-
+    try:
+        d = request.get_json()
+        print(note_schema.load(d),"ASA")
+        if d["numbofEditors"]>0 and d["numbofEditors"]<=5:
+            session.add(Note(d["tag"],d["text"],d["numbofEditors"]))
+            session.commit()
+            return 'created note',201
+        else:
+            return 'number of editors can"t be less then 1 and more then 5',405
+    except TypeError as err:
+        print(err)
+        return "invalid input",404
 @app.route('/note/<id>',methods=['GET'])
 def get_note(id):
     x = session.query(Note).filter_by(id=id).first()
-    print(x==None,x!=None)
     return (json.dumps(x.as_dict()),200) if x != None else ("not found",404)
 
 @app.route('/note/<id>',methods=['PUT'])
