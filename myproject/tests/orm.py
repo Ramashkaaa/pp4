@@ -37,10 +37,10 @@ class Note(Base):
    text = Column(String)
    numbofEditors = Column(Integer)
 
-   def __init__(self,tag,text,url):
+   def __init__(self,tag,text,numbofEditors):
       self.tag = tag
       self.text = text
-      self.photoUrl = url
+      self.numbofEditors = numbofEditors
    def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 class Edit(Base):
@@ -74,8 +74,12 @@ class Allow(Base):
    id = Column(Integer,primary_key=True)
    noteId  = Column(Integer,ForeignKey("Note.id"))
    userId  = Column(Integer,ForeignKey("User.id"))
-   
-engine = create_engine('mssql+pyodbc://PC0007/lab-2?driver=SQL+Server+Native+Client+11.0')
+
+import urllib,pyodbc
+
+
+engine = create_engine('mssql+pyodbc://localhost\SQLEXPRESS01/vio?trusted_connection=yes&driver=SQL+Server+Native+Client+11.0')
+##engine = create_engine("mssql+pyodbc:///?odbc_connect={}".format(params))
 
 Base.metadata.create_all(engine)
 ##
